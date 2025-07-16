@@ -3,10 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="./assets/img/4geeks.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello Rigo with Vanilla.js</title>
-
-    <!-- Fontawesome is our recomended library for icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.5" />
+    <title>salem card sorter</title>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
@@ -15,21 +13,77 @@
     />
   </head>
   <body>
-    <!-- Write your HTML code here, you can delete everything withing the body tags -->
-    <div class="container-fluid text-center">
-      <h1 class="mt-5">Hello Rigo!</h1>
-      <img src="./assets/img/rigo-baby.jpg" />
-      <p class="alert alert-warning mt-4">
-        If this text is <b>not</b> centered and <b>yellow</b>, you probably have
-        an error
-      </p>
-      <div class="fixed-bottom p-4">
-        Made with ❤️ by
-        <a href="https://www.4geeksacademy.com">4Geeks Academy</a>
+
+
+
+    <div class="container-fluid ">
+
+
+
+
+
+
+      <div class="col">
+          <p>Orginal: <input  size="5" id="cardCount"/>
+          <button id="drawButton" class="  btn-light">Draw</button>
+          <button id="sortButton" class="  btn-light">Sort</button>
+         </p>
       </div>
+
+
+
+
+
+      <div class="col">
+         <div id="cardContainer" class="d-flex flex-wrap  ">
+            </div>
+          </div>
+          </div>
+
+
+
+
+    <div class="container-fluid ">
+
+      <div class="col fst-italic align-items-center justify-content-center  ">
+        <p >Select Sort Log:
+
+
+              <div class="d-flex flex-wrap  align-items-center   ">0
+
+                <div id="cardContainer0" class="d-flex flex-wrap justify-content-center  "></div>
+
+              </div>
+               <div class="d-flex flex-wrap  align-items-center   ">1
+
+                <div id="cardContainer1" class="d-flex flex-wrap justify-content-center  "></div>
+
+              </div>
+               <div class="d-flex flex-wrap  align-items-center   ">2
+
+                <div id="cardContainer2" class="d-flex flex-wrap justify-content-center  "></div>
+
+              </div>
+               <div class="d-flex flex-wrap  align-items-center   ">3
+
+                <div id="cardContainer3" class="d-flex flex-wrap justify-content-center  "></div>
+
+              </div>
+
+              
+
+          </p>
+          </div>
+    </div>
+
+
+
     </div>
 
     <!-- Do not delete this script tag, this is what connects your HTML with the Javascript code -->
     <script type="module" src="/app.js"></script>
   </body>
+
+
+
 </html>
