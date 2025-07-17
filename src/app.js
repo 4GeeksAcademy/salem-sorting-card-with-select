@@ -5,7 +5,6 @@ import "./assets/img/rigo-baby.jpg";
 import "./assets/img/4geeks.ico";
 
 window.onload = function () {
-  // namming things
   const drawButton = document.getElementById("drawButton");
   const sortButton = document.getElementById("sortButton");
   const cardCountInput = document.getElementById("cardCount");
@@ -13,20 +12,18 @@ window.onload = function () {
   const cardValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   let drawnCards = [];
 
-  //1 random card using math.random a simlpe function that returns random number depending on the lenth of its owner.
   function generateRandomCard() {
     const icon = cardIcons[Math.floor(Math.random() * cardIcons.length)];
     const value = cardValues[Math.floor(Math.random() * cardValues.length)];
     return { icon, value };
   }
 
-  //2 a simple function to render cards when needed to call them in the upcoming drawing and sorting buttons.
   function renderCards(cards, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
     cards.forEach((card) => {
       const cardDiv = document.createElement("div");
-      cardDiv.className = "card m-2 row shadow-lg  rounded";
+      cardDiv.className = "card m-2 row shadow-lg rounded";
       cardDiv.style.width = "3rem";
       cardDiv.style.height = "4rem";
       cardDiv.innerHTML = `
@@ -38,7 +35,6 @@ window.onload = function () {
     });
   }
 
-  // a simple functin that have a for loop inside of it where it utilise the above
   function drawCards(count) {
     drawnCards = [];
     for (let i = 0; i < count; i++) {
@@ -49,21 +45,21 @@ window.onload = function () {
 
   function selectionSortWithSteps(arr) {
     let steps = [];
-    arr = [...arr]; // Clone to avoid mutating original
-    let min = 0;
-
-    while (min < arr.length - 1) {
-      for (let i = min + 1; i < arr.length; i++) {
-        if (arr[min].value > arr[i].value) {
-          let aux = arr[min];
-          arr[min] = arr[i];
-          arr[i] = aux;
-          steps.push([...arr]); // Capture snapshot after every swap
+    arr = [...arr];
+    for (let i = 0; i < arr.length; i++) {
+      let minIndex = i;
+      for (let j = i + 1; j < arr.length; j++) {
+        if (arr[j].value < arr[minIndex].value) {
+          minIndex = j;
         }
       }
-      min++;
+      if (minIndex !== i) {
+        let temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
+        steps.push(arr.map((card) => ({ ...card })));
+      }
     }
-
     return steps;
   }
 
@@ -73,21 +69,27 @@ window.onload = function () {
       alert("Please enter a valid number.");
       return;
     }
+    // Clear the sorted step containers
+    document.getElementById("cardContainer0").innerHTML = "";
+    document.getElementById("cardContainer1").innerHTML = "";
+    document.getElementById("cardContainer2").innerHTML = "";
+    document.getElementById("cardContainer3").innerHTML = "";
     drawCards(count);
   });
 
+  // note that the function should work if the drawncards are less than 6, otherwise it will sort correctly
+  // to solve this we can add more containers or just render the drawnCards after sorting
   sortButton.addEventListener("click", () => {
     if (drawnCards.length === 0) {
       alert("Draw cards first.");
       return;
     }
-
-    const steps = selectionSortWithSteps(drawnCards);
-
-    // Show up to 4 sorting steps in cardContainer0-3
-    for (let i = 0; i < 4; i++) {
-      const step = steps[i] || steps[steps.length - 1] || drawnCards;
-      renderCards(step, `cardContainer${i}`);
-    }
+    const steps = selectionSortWithSteps([...drawnCards]);
+    if (steps[0]) renderCards(steps[0], "cardContainer0");
+    if (steps[1]) renderCards(steps[1], "cardContainer1");
+    if (steps[2]) renderCards(steps[2], "cardContainer2");
+    if (steps[3]) renderCards(steps[3], "cardContainer3");
+    drawnCards.sort((a, b) => a.value - b.value);
+    renderCards(drawnCards, "cardContainer");
   });
 };
