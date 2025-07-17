@@ -63,32 +63,49 @@ window.onload = function () {
     return steps;
   }
 
+  function clearSortLogContainers() {
+    const sortLogContainer = document.getElementById("sortLogContainer");
+    sortLogContainer.innerHTML = "";
+  }
+
+  function createSortLogContainers(numberOfSteps) {
+    const sortLogContainer = document.getElementById("sortLogContainer");
+    sortLogContainer.innerHTML = "";
+
+    for (let i = 0; i < numberOfSteps; i++) {
+      const stepContainer = document.createElement("div");
+      stepContainer.className = "d-flex flex-wrap align-items-center";
+      stepContainer.innerHTML = `${i}<div id="cardContainer${i}" class="d-flex flex-wrap justify-content-center"></div>`;
+      sortLogContainer.appendChild(stepContainer);
+    }
+  }
+
   drawButton.addEventListener("click", () => {
     const count = parseInt(cardCountInput.value);
-    if (isNaN(count) || count <= 0) {
-      alert("Please enter a valid number.");
+    if (isNaN(count) || count <= 0 || count > 9) {
+      alert("Ohh!! You can only draw 1 to 9 cards. Please try again.");
       return;
     }
     // Clear the sorted step containers
-    document.getElementById("cardContainer0").innerHTML = "";
-    document.getElementById("cardContainer1").innerHTML = "";
-    document.getElementById("cardContainer2").innerHTML = "";
-    document.getElementById("cardContainer3").innerHTML = "";
+    clearSortLogContainers();
     drawCards(count);
   });
 
-  // note that the function should work if the drawncards are less than 6, otherwise it will sort correctly
-  // to solve this we can add more containers or just render the drawnCards after sorting
   sortButton.addEventListener("click", () => {
     if (drawnCards.length === 0) {
       alert("Draw cards first.");
       return;
     }
+
     const steps = selectionSortWithSteps([...drawnCards]);
-    if (steps[0]) renderCards(steps[0], "cardContainer0");
-    if (steps[1]) renderCards(steps[1], "cardContainer1");
-    if (steps[2]) renderCards(steps[2], "cardContainer2");
-    if (steps[3]) renderCards(steps[3], "cardContainer3");
+
+    // Create containers dynamically based on number of steps
+    createSortLogContainers(steps.length);
+
+    // Render each step to its corresponding container
+    steps.forEach((step, index) => {
+      renderCards(step, `cardContainer${index}`);
+    });
     drawnCards.sort((a, b) => a.value - b.value);
     renderCards(drawnCards, "cardContainer");
   });
